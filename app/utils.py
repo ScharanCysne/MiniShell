@@ -7,6 +7,7 @@ import sys
 # List of valid commands
 BUILTIN_COMMANDS = ["echo", "exit", "type", "pwd", "cd"]
 PATH = os.environ.get("PATH", "/usr/bin:/usr/local/bin")
+HOME = os.environ.get("HOME", "/home")
 
 
 def print(string: str) -> None:

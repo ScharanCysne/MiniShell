@@ -3,7 +3,7 @@
 import os
 from typing import List
 
-from .utils import BUILTIN_COMMANDS, PATH, print
+from .utils import BUILTIN_COMMANDS, PATH, HOME, print
 
 
 def echo_command(args: List[str]) -> None:
@@ -52,6 +52,7 @@ def cd_command(args: List[str]) -> None:
         args (List[str]): List of arguments passed for command.
     """
     path = args[1]
+    path = path.replace("~", HOME)
 
     if os.path.isdir(path):
         os.chdir(path)
