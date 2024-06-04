@@ -28,7 +28,7 @@ def type_command(args: List[str]) -> None:
             sys.stdout.write(f"{args[0]} is {cmd_path}")
             sys.stdout.write("\n")
         else:
-            sys.stdout.write(f"{args[0]}: command not found")
+            sys.stdout.write(f"{args[0]} not found")
             sys.stdout.write("\n")
 
 
