@@ -1,35 +1,10 @@
+# MiniShell v0
+
 import os
 import sys
 
-from typing import List
-
-# List of valid commands
-COMMANDS = ["echo", "exit", "type"]
-PATH = os.environ.get("PATH", "/usr/bin:/usr/local/bin")
-
-
-def echo_command(args: List[str]) -> None:
-    sys.stdout.write(" ".join(args))
-    sys.stdout.write("\n")
-
-
-def type_command(args: List[str]) -> None:
-    if args[0] in COMMANDS:
-        sys.stdout.write(f"{args[0]} is a shell builtin")
-        sys.stdout.write("\n")
-    else:
-        # Check if command in PATH
-        cmd_path = ""
-        for os_path in PATH.split(":"):
-            if os.path.isfile(f"{os_path}/{args[0]}"):
-                cmd_path = f"{os_path}/{args[0]}"
-
-        if cmd_path:
-            sys.stdout.write(f"{args[0]} is {cmd_path}")
-            sys.stdout.write("\n")
-        else:
-            sys.stdout.write(f"{args[0]} not found")
-            sys.stdout.write("\n")
+from .utils import BUILTIN_COMMANDS, PATH, print
+from .commands import echo_command, type_command
 
 
 def main():
@@ -40,30 +15,38 @@ def main():
         sys.stdout.flush()
 
         # Wait for user input
-        command = input()
-        args = ""
+        command = input().split(" ")
 
-        # Check for arguments
-        if " " in command:
-            kws = command.split(" ")
-            command = kws[0]
-            args = kws[1:]
+        # Check for builtin command
+        if command[0] in BUILTIN_COMMANDS:
+            # Check for echo command
+            if command[0] == "echo":
+                echo_command(command)
 
-        # Check for invalid commands
-        if command not in COMMANDS:
-            sys.stdout.write(f"{command}: command not found\n")
+            # Check for echo command
+            if command[0] == "type":
+                type_command(command)
 
-        # Check for exit command
-        if command == "exit" and args and args[0] == "0":
-            return
+            # Check for exit command
+            if command[0] == "exit":
+                if len(command) > 1 and command[1] == "0":
+                    return
+                else:
+                    print("exit: missing exit code")
 
-        # Check for echo command
-        if command == "echo" and args:
-            echo_command(args)
+        # Check for local program
+        command_path = ""
+        for os_path in PATH.split(":"):
+            if os.path.isfile(f"{os_path}/{command[0]}"):
+                command_path = f"{os_path}/{command[0]}"
 
-        # Check for echo command
-        if command == "type" and args:
-            type_command(args)
+        # Execute local program is found
+        if command[0] not in BUILTIN_COMMANDS and command_path:
+            os.system(" ".join(command))
+
+        # Invalid command
+        if command[0] not in BUILTIN_COMMANDS and not command_path:
+            sys.stdout.write(f"{command[0]}: command not found\n")
 
 
 if __name__ == "__main__":
