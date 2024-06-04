@@ -24,8 +24,12 @@ def main():
             sys.stdout.write(f"{command}: command not found\n")
 
         # Check for exit command
-        if command.startswith("exit") and args and args[0] == "0":
+        if command == "exit" and args and args[0] == "0":
             return
+        # Check for echo command
+        if command == "echo" and args:
+            sys.stdout.write(" ".join(args))
+            sys.stdout.write("\n")
 
 
 if __name__ == "__main__":
