@@ -43,3 +43,17 @@ def type_command(args: List[str]) -> None:
 def pwd_command() -> None:
     """MiniShell's `pwd` command."""
     print(os.getcwd())
+
+
+def cd_command(args: List[str]) -> None:
+    """MiniShell's `cd` command.
+
+    Args:
+        args (List[str]): List of arguments passed for command.
+    """
+    path = args[1]
+
+    if os.path.isdir(path):
+        os.chdir(path)
+    else:
+        print(f"cd: {path}: No such file or directory")

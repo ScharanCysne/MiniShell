@@ -4,7 +4,7 @@ import os
 import sys
 
 from .utils import BUILTIN_COMMANDS, PATH, print
-from .commands import echo_command, type_command, pwd_command
+from .commands import echo_command, type_command, pwd_command, cd_command
 
 
 def main():
@@ -30,6 +30,10 @@ def main():
             # Check for pwd command
             if command[0] == "pwd":
                 pwd_command()
+
+            # Check for pwd command
+            if command[0] == "cd":
+                cd_command(command)
 
             # Check for exit command
             if command[0] == "exit":
