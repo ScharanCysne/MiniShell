@@ -4,7 +4,7 @@ import sys
 from typing import List
 
 # List of valid commands
-COMMANDS = ["echo", "mkdir", "exit", "type"]
+COMMANDS = ["echo", "exit", "type"]
 PATH = os.environ.get("PATH", "/usr/bin:/usr/local/bin")
 
 
