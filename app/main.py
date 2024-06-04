@@ -4,7 +4,7 @@ import os
 import sys
 
 from .utils import BUILTIN_COMMANDS, PATH, print
-from .commands import echo_command, type_command
+from .commands import echo_command, type_command, pwd_command
 
 
 def main():
@@ -23,9 +23,13 @@ def main():
             if command[0] == "echo":
                 echo_command(command)
 
-            # Check for echo command
+            # Check for type command
             if command[0] == "type":
                 type_command(command)
+
+            # Check for pwd command
+            if command[0] == "pwd":
+                pwd_command()
 
             # Check for exit command
             if command[0] == "exit":

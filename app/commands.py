@@ -38,3 +38,8 @@ def type_command(args: List[str]) -> None:
             print(f"{cmd} is {cmd_path}")
         else:
             print(f"{cmd} not found")
+
+
+def pwd_command() -> None:
+    """MiniShell's `pwd` command."""
+    print(os.getcwd())

@@ -5,7 +5,7 @@ import sys
 
 
 # List of valid commands
-BUILTIN_COMMANDS = ["echo", "exit", "type"]
+BUILTIN_COMMANDS = ["echo", "exit", "type", "pwd"]
 PATH = os.environ.get("PATH", "/usr/bin:/usr/local/bin")
 
 
