@@ -1,29 +1,40 @@
+import os
 import sys
+
 from typing import List
 
 # List of valid commands
-COMMANDS = ["ls", "echo", "mkdir", "exit", "type"]
+COMMANDS = ["echo", "mkdir", "exit", "type"]
+PATH = os.environ.get("PATH", "/usr/bin:/usr/local/bin")
 
 
-def echo_command(args: List[str]):
+def echo_command(args: List[str]) -> None:
     sys.stdout.write(" ".join(args))
     sys.stdout.write("\n")
 
 
-def type_command(args: List[str]):
+def type_command(args: List[str]) -> None:
     if args[0] in COMMANDS:
         sys.stdout.write(f"{args[0]} is a shell builtin")
         sys.stdout.write("\n")
-    elif args[0] == "cat":
-        sys.stdout.write("cat is /bin/cat")
-        sys.stdout.write("\n")
     else:
-        sys.stdout.write(f"{args[0]} not found")
-        sys.stdout.write("\n")
+        # Check if command in PATH
+        cmd_path = ""
+        for os_path in PATH.split(":"):
+            if os.path.isfile(f"{os_path}/{args[0]}"):
+                cmd_path = f"{os_path}/{args[0]}"
+
+        if cmd_path:
+            sys.stdout.write(f"{args[0]} is {cmd_path}")
+            sys.stdout.write("\n")
+        else:
+            sys.stdout.write(f"{args[0]}: command not found")
+            sys.stdout.write("\n")
 
 
-# mini shell
 def main():
+    """MiniShell"""
+
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
